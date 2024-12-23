@@ -13,11 +13,9 @@ This repository implements the Consensus Technical Assessment to fine-tune and o
 
 ## Dataset Description
 
-### Training Data
-- **File**: `data/input_data/training_data.csv`
+### Training Data: `data/input_data/training_data.csv`
 
-### Inference Data
-- **File**: `data/input_data/inference_data.csv`
+### Inference Data: `data/input_data/inference_data.csv`
 
 ---
 
