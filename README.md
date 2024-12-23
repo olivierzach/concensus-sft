@@ -4,25 +4,17 @@
 
 This repository implements the Consensus Technical Assessment to fine-tune and optimize a language model for scientific question answering. The task involves:
 
-1. Fine-tuning a T5-based language model using the training dataset (`training_data.csv`).
-2. Running inference on an evaluation dataset (`inference_data.csv`) to generate answers.
+1. Fine-tuning a T5-based language model using the training dataset (`data/input_data/training_data.csv`).
+2. Running inference on an evaluation dataset (`data/input_data/inference_data.csv`) to generate answers.
 3. Ensuring inference meets the speed requirement: **20 text inputs in under 3 seconds**.
 4. Evaluating model performance using robust metrics.
-
----
-
-## Dataset Description
-
-### Training Data: `data/input_data/training_data.csv`
-
-### Inference Data: `data/input_data/inference_data.csv`
 
 ---
 
 ## Deliverables
 
 ### Training Code
-- **Script**: `train.py`
+- **Script**: `models/train.py`
 - Preprocesses input data by cleaning and formatting.
 - Fine-tunes a pre-trained `T5-small` model.
 - Saves the best-performing model and checkpoints.
@@ -30,11 +22,11 @@ This repository implements the Consensus Technical Assessment to fine-tune and o
 ### Inference Code
 - **Script**: `inference.py`
 - Preprocesses and formats questions and contexts.
-- Runs batch inference on 20 inputs in parallel using `multiprocessing.Pool`.
+- Runs batch inference on 20 inputs.
 - Measures inference latency and ensures it meets the < 3-second requirement.
 
 ### Evaluation Metrics
-- **Script**: `evaluate_model.py`
+- **Script**: `models/evaluation.py`
 - Metrics Used:
   1. **BLEU**: Measures n-gram overlap for lexical similarity.
   2. **ROUGE**: Evaluates unigram, bigram, and longest sequence overlap.
