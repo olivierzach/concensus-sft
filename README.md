@@ -26,7 +26,7 @@ This repository implements the Consensus Technical Assessment to fine-tune and o
 ### Training Code
 - **Script**: `train.py`
 - Preprocesses input data by cleaning and formatting.
-- Fine-tunes a pre-trained `T5-small` model with the `AdamW` optimizer.
+- Fine-tunes a pre-trained `T5-small` model.
 - Saves the best-performing model and checkpoints.
 
 ### Inference Code
