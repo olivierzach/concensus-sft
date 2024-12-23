@@ -79,5 +79,5 @@ python inference.py
 ```
 
 ```bash
-python evaluation.py
+python models/evaluation.py
 ```
