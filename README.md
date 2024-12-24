@@ -62,10 +62,87 @@ This repository implements the Consensus Technical Assessment to fine-tune and o
 
 ### Example Output
 ```plaintext
-Epoch 1: Training Loss = 3.0237, Validation Loss = 1.5023
-Epoch 2: Training Loss = 1.6260, Validation Loss = 1.3869
-Epoch 3: Training Loss = 1.4453, Validation Loss = 1.3037
-Final Test Loss = 1.2214
+Epoch 1 Training Complete - Average Loss: 3.1219
+
+Evaluating on validation set...
+Epoch 1 Validation Loss: 0.5330
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_1.pt
+
+Epoch 2 Training Complete - Average Loss: 0.9136
+
+Evaluating on validation set...
+Epoch 2 Validation Loss: 0.5267
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_2.pt
+
+Epoch 3 Training Complete - Average Loss: 0.6704
+
+Evaluating on validation set...
+Epoch 3 Validation Loss: 0.5031
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_3.pt
+
+Epoch 4 Training Complete - Average Loss: 0.6028
+
+Evaluating on validation set...
+Epoch 4 Validation Loss: 0.4719
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_4.pt
+
+Epoch 5 Training Complete - Average Loss: 0.5714
+
+Evaluating on validation set...
+Epoch 5 Validation Loss: 0.4496
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_5.pt
+
+Epoch 6 Training Complete - Average Loss: 0.5373
+
+Evaluating on validation set...
+Epoch 6 Validation Loss: 0.4328
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_6.pt
+
+Epoch 7 Training Complete - Average Loss: 0.5175
+
+Evaluating on validation set...
+Epoch 7 Validation Loss: 0.4176
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_7.pt
+
+Epoch 8 Training Complete - Average Loss: 0.4945
+
+Evaluating on validation set...
+Epoch 8 Validation Loss: 0.4029
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_8.pt
+
+Epoch 9 Training Complete - Average Loss: 0.4743
+
+Evaluating on validation set...
+Epoch 9 Validation Loss: 0.3867
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_9.pt
+
+Epoch 10 Training Complete - Average Loss: 0.4498
+
+Evaluating on validation set...
+Epoch 10 Validation Loss: 0.3657
+
+Validation loss improved. Saving checkpoint...
+Checkpoint saved: assets/checkpoints/checkpoint_epoch_10.pt
+Final model saved to assets/t5_question_answering_model
+Test Loss: 0.3859
 ```
 
 ---
