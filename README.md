@@ -68,35 +68,6 @@ Epoch 3: Training Loss = 1.4453, Validation Loss = 1.3037
 Final Test Loss = 1.2214
 ```
 
-**Summary of Training Progress**:
-- The model was trained for 3 epochs with a batch size of 8.
-- Average training loss and validation loss are reported below, along with BLEU scores on the validation set.
-
-| Epoch | Avg Training Loss | Avg Validation Loss | Validation BLEU | Time/Epoch (s) |
-|-------|--------------------|---------------------|-----------------|----------------|
-| 1     | 2.75               | 2.85                | 0.35            | 120            |
-| 2     | 1.50               | 1.80                | 0.45            | 110            |
-| 3     | 1.10               | 1.35                | 0.50            | 105            |
-
-**Loss Curves**:
-(Attach a plot of training and validation losses.)
-
-**Metric Trends**:
-- BLEU improved consistently across epochs, indicating better alignment of generated answers with the ground truth.
-
-
-
----
-
-## Why These Metrics?
-
-| Metric         | Purpose                                   | Justification                                      |
-|----------------|-------------------------------------------|--------------------------------------------------|
-| **BLEU**       | Measures n-gram precision.               | Ensures answers contain key terms from references. |
-| **ROUGE**      | Measures word/phrase overlap.            | Evaluates content coverage for longer answers.    |
-| **Exact Match**| Checks strict correctness.               | Useful for tasks requiring exact technical phrasing. |
-| **BERTScore**  | Measures semantic similarity.            | Captures paraphrases and high-level meaning.       |
-
 ---
 
 ## Evaluation Results
@@ -112,6 +83,17 @@ Final Test Loss = 1.2214
 | **Average ROUGE** | [TBD]   |
 | **Exact Match**   | [TBD]   |
 | **BERTScore**     | [TBD]   |
+
+---
+
+## Why These Metrics?
+
+| Metric         | Purpose                                   | Justification                                      |
+|----------------|-------------------------------------------|--------------------------------------------------|
+| **BLEU**       | Measures n-gram precision.               | Ensures answers contain key terms from references. |
+| **ROUGE**      | Measures word/phrase overlap.            | Evaluates content coverage for longer answers.    |
+| **Exact Match**| Checks strict correctness.               | Useful for tasks requiring exact technical phrasing. |
+| **BERTScore**  | Measures semantic similarity.            | Captures paraphrases and high-level meaning.       |
 
 ---
 
