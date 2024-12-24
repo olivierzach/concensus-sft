@@ -36,7 +36,7 @@ This repository implements the Consensus Technical Assessment to fine-tune and o
 
 ### Model Details
 - **Architecture**: `google/flan-t5-small`, Sequence-to-Sequence for open-ended text generation, instruction-tuned on flan dataset.
-- **Pre-trained Model**: Hugging Face `oogle/flan-t5-small`, fine-tuned for scientific question answering.
+- **Pre-trained Model**: Hugging Face `google/flan-t5-small`, fine-tuned for scientific question answering.
 - **Loss Function**: Cross-entropy (built into T5).
 
 ### Dataset
