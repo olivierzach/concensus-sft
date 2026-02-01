@@ -1,0 +1,16 @@
+torch
+transformers
+datasets
+evaluate
+accelerate
+pandas
+numpy
+pyyaml
+sentencepiece
+rouge_score
+pytest
+onnx
+onnxruntime
+optimum[onnxruntime]
+matplotlib
+scikit-learn
