@@ -1,21 +1,20 @@
-import os
-import time
-import torch
-import pandas as pd
-from multiprocessing import Pool, cpu_count
-from transformers import AutoTokenizer, T5ForConditionalGeneration
 import argparse
+import time
 import re
 
-# Define paths and device
-MODEL_SAVE_DIR = 'models/assets/t5_question_answering_model'
-INFERENCE_DATA_PATH = 'data/input_datasets/inference_data.csv'
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+import pandas as pd
+import torch
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-def load_model_and_tokenizer():
+# Define paths and device
+MODEL_SAVE_DIR = 'outputs/consensus_clean/flan_t5_small_clean_end_es_rouge_long/best_checkpoint'
+INFERENCE_DATA_PATH = 'data/input_datasets/inference_data.csv'
+DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+
+def load_model_and_tokenizer(model_path: str):
     print("Loading the model and tokenizer...")
-    model = T5ForConditionalGeneration.from_pretrained(MODEL_SAVE_DIR).to(DEVICE)
-    tokenizer = AutoTokenizer.from_pretrained("t5-small")
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_path).to(DEVICE)
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
     model.eval()
     print("Model and tokenizer loaded successfully.")
     return model, tokenizer
@@ -33,7 +32,7 @@ def preprocess_inputs(dataframe):
     ]
     return formatted_inputs
 
-def process_batch(batch_texts):
+def process_batch(batch_texts, model, tokenizer):
     inputs = tokenizer(
         batch_texts,
         padding=True,
@@ -51,13 +50,13 @@ def process_batch(batch_texts):
 
     return [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
 
-def generate_answers(input_texts, batch_size=20):
+def generate_answers(input_texts, model, tokenizer, batch_size=20):
     start_time = time.time()
 
     batches = [input_texts[i:i + batch_size] for i in range(0, len(input_texts), batch_size)]
-    with Pool(processes=cpu_count()) as pool:
-        results = pool.map(process_batch, batches)
-    answers = [answer for batch in results for answer in batch]
+    answers = []
+    for batch in batches:
+        answers.extend(process_batch(batch, model, tokenizer))
 
     elapsed_time = time.time() - start_time
     print(f"Inference completed in {elapsed_time:.2f} seconds for {len(input_texts)} inputs.")
@@ -66,8 +65,14 @@ def generate_answers(input_texts, batch_size=20):
 
 
 def main():
-    print(f"Reading inference data from {INFERENCE_DATA_PATH}...")
-    dataframe = pd.read_csv(INFERENCE_DATA_PATH)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model_path", default=MODEL_SAVE_DIR)
+    parser.add_argument("--input_csv", default=INFERENCE_DATA_PATH)
+    parser.add_argument("--batch_size", type=int, default=20)
+    args = parser.parse_args()
+
+    print(f"Reading inference data from {args.input_csv}...")
+    dataframe = pd.read_csv(args.input_csv)
 
     # Validate required columns
     if 'query' not in dataframe.columns or 'context' not in dataframe.columns:
@@ -81,9 +86,8 @@ def main():
 
     # Run inference
     print("Running parallel inference...")
-    global model, tokenizer
-    model, tokenizer = load_model_and_tokenizer()
-    generated_answers = generate_answers(input_texts, batch_size=20)
+    model, tokenizer = load_model_and_tokenizer(args.model_path)
+    generated_answers = generate_answers(input_texts, model, tokenizer, batch_size=args.batch_size)
 
     # Print results
     print("\nGenerated Answers:")

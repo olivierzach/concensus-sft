@@ -14,3 +14,6 @@
 2) Add semantic metric for robustness.
 3) Use NLI-based entailment on a sample for faithfulness.
 4) Include a short human evaluation pass for qualitative sanity.
+
+## Metric Definitions
+See `docs/metrics_definitions.md` for formulas and computation details.

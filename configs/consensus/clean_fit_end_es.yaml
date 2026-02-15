@@ -1,0 +1,58 @@
+project:
+  seed: 42
+  output_dir: outputs/consensus_clean
+  run_name: flan_t5_small_clean_end_es
+
+data:
+  processed_path: data/processed/training_data_sft_clean_end.csv
+  max_source_length: 384
+  max_target_length: 180
+  split:
+    train: 0.8
+    val: 0.1
+    test: 0.1
+
+model:
+  model_name: google/flan-t5-small
+
+special_tokens:
+  additional_special_tokens:
+    - "[END]"
+end_token: "[END]"
+
+train:
+  num_train_epochs: 200
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  learning_rate: 1.5e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.06
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  torch_empty_cache_steps: 50
+  eval_strategy: steps
+  eval_steps: 2000
+  save_strategy: steps
+  save_steps: 2000
+  save_total_limit: 2
+  logging_steps: 50
+  predict_with_generate: true
+  generation_max_length: 180
+  fp16: false
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+
+generation:
+  num_beams: 4
+  no_repeat_ngram_size: 3
+  repetition_penalty: 1.1
+  length_penalty: 1.1
+
+early_stopping:
+  enabled: true
+  patience: 2
+
+sanity:
+  enabled: true
+  num_samples: 3
