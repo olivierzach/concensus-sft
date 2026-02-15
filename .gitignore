@@ -1,10 +1,13 @@
 .venv/
 .venv311/
+.venv_scitldr/
 __pycache__/
 *.pyc
 .outputs/
 outputs/
 data/processed/
+data/scitldr/.cache/
+**/.cache/transformers/
 docs/papers/
 reports/*.png
 reports/*.svg
