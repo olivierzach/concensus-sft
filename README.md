@@ -1,6 +1,34 @@
-# Consensus SFT Take-Home
+# Consensus Scientific Question Answering (QA) Supervised Fine-Tuning (SFT): End-to-End Pipeline & Results
 
-A clean, reproducible SFT baseline for scientific question answering with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
+A clean, reproducible supervised fine-tuning (SFT) baseline for scientific question answering (QA) with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
+
+**About Consensus (sponsor):** Consensus is an AI‑powered search engine for scientific research papers, with a mission to make the world’s best knowledge more accessible.
+
+## Abstract
+We build a supervised fine-tuning (SFT) pipeline for scientific question answering. Early runs failed due to noisy targets and misalignment, producing repetitive outputs. We introduce an oracle extractive target construction and filtering strategy that aligns supervision with the input context. With early stopping on ROUGE‑L and MPS‑friendly training settings, the final model reaches ROUGE‑1 > 0.70 and ROUGE‑L ~0.664 while remaining feasible on a Mac mini.
+
+## Problem Definition
+Given a **question** and a **paper abstract**, generate a short, faithful answer. This is a small‑data regime with noisy labels, so target design and evaluation alignment dominate performance.
+
+## Data & Preprocessing
+Raw inputs include `query`, `context`, and a noisy `label`. The clean pipeline:
+1) Builds an **oracle target** by selecting the most relevant sentence(s) from the abstract.
+2) Drops rows with low overlap between input and target.
+3) Appends `[END]` to targets and uses it as EOS at decode time.
+
+See `data/process_data_sft_clean.py` for implementation.
+
+## Method (Model + Objective)
+- **Model**: FLAN‑T5 small (encoder‑decoder, text‑to‑text)
+- **Input**: `Question: ... Context: ...`
+- **Objective**: token‑level cross‑entropy on oracle targets
+- **Decoding**: beam search + repetition control + `[END]` as EOS
+
+## Training Details
+Best‑run settings (see `configs/consensus/clean_fit_end_es_rouge_long.yaml`):
+- Batch size 4, LR 1.5e‑5, weight decay 0.01
+- Early stopping on `eval_rougeL` (patience 25)
+- Gradient checkpointing + MPS cache controls
 
 ## Quickstart
 ```bash
@@ -16,6 +44,27 @@ python data/process_data_sft.py \
 
 # Train a small MPS-friendly model
 python scripts/train.py --config configs/small_high_accuracy_mps.yaml
+```
+
+## Evaluation Protocol
+- **Primary**: ROUGE‑L (summary quality, sequence coherence)
+- **Secondary**: ROUGE‑1/2, BLEU
+- **Selection**: early stopping on ROUGE‑L to align with generation quality
+- **Metric formulas**: `docs/metrics_definitions.md`
+
+## Results
+Best run (oracle + early stopping on ROUGE‑L):
+- BLEU **0.6237**
+- ROUGE‑1 **0.7143**
+- ROUGE‑2 **0.6352**
+- ROUGE‑L **0.6637**
+
+Iteration trajectory:
+```
+baseline (low latency):   BLEU 0.0587, ROUGE‑L 0.2094
+clean (oracle) run:       BLEU 0.5564, ROUGE‑L 0.5865
+long clean run:           BLEU 0.6032, ROUGE‑L 0.6538
+best run (this repo):     BLEU 0.6237, ROUGE‑L 0.6637
 ```
 
 ## Project Layout
@@ -62,6 +111,16 @@ PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python inference.py \
 - Long clean run improved further: BLEU 0.6032, ROUGE-L 0.6538.
 - Best run (this repo): BLEU 0.6237, ROUGE-L 0.6637.
 - Net gain vs earliest baseline: ~10× BLEU and ~3× ROUGE-L, with coherent outputs.
+
+## Engineering Notes
+- **MPS stability**: gradient checkpointing + cache clears + low watermark.
+- **Reproducibility**: configs are versioned; outputs are intentionally not tracked.
+- **Failure modes**: see `docs/failure_modes.md`.
+
+## Limitations & Next Steps
+- Small dataset; metrics can be noisy across seeds.
+- ROUGE/BLEU are imperfect for semantic correctness.
+- Next steps: semantic metrics (BERTScore/BLEURT), NLI-based faithfulness checks, stronger data curation.
 
 ## Seed Sweep (Variance Check)
 Run the 3‑seed sweep (no timeouts in your terminal):
