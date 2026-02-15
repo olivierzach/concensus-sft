@@ -63,6 +63,23 @@ PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python inference.py \
 - Best run (this repo): BLEU 0.6237, ROUGE-L 0.6637.
 - Net gain vs earliest baseline: ~10× BLEU and ~3× ROUGE-L, with coherent outputs.
 
+## Seed Sweep (Variance Check)
+Run the 3‑seed sweep (no timeouts in your terminal):
+```bash
+cd /Users/statsparrot/projects/concensus-interview
+source .venv_scitldr/bin/activate
+PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python scripts/seed_sweep.py \
+  --base_config configs/consensus/seed_sweep_base.yaml \
+  --seeds 13,21,1337
+```
+
+Resume a seed if interrupted:
+```bash
+PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python scripts/consensus/train_clean.py \
+  --config /tmp/seed_sweep_13.yaml \
+  --resume_from_checkpoint outputs/consensus_seed_sweep/flan_t5_small_clean_end_es_rouge_long_seed13/checkpoint-6000
+```
+
 ## Learning Path
 See:
 - `docs/learning_path.md`

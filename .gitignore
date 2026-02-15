@@ -5,6 +5,9 @@ __pycache__/
 .outputs/
 outputs/
 data/processed/
+docs/papers/
+reports/*.png
+reports/*.svg
 .DS_Store
 *.csv
 .pytest_cache
