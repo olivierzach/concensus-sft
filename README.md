@@ -1,4 +1,4 @@
-# Consensus Scientific Question Answering (QA) Supervised Fine-Tuning (SFT): End-to-End Pipeline & Results
+# Consensus Scientific Question-Answering Supervised Fine-Tuning: End-to-End Model Pipeline & Results
 
 A clean, reproducible supervised fine-tuning (SFT) baseline for scientific question answering (QA) with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
 
