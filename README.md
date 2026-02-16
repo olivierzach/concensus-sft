@@ -2,7 +2,7 @@
 
 A clean, reproducible supervised fine-tuning (SFT) baseline for scientific question answering (QA) with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
 
-**About Consensus (sponsor):** Consensus is an AI‑powered search engine for scientific research papers, with a mission to make the world’s best knowledge more accessible.
+**About Consensus (sponsor):** Consensus is an AI‑powered search engine for scientific research papers, with a mission to make the world’s best knowledge more accessible. [consensus.app](https://consensus.app/)
 
 ## Abstract
 We build a supervised fine-tuning (SFT) pipeline for scientific question answering. Early runs failed due to noisy targets and misalignment, producing repetitive outputs. We introduce an oracle extractive target construction and filtering strategy that aligns supervision with the input context. With early stopping on ROUGE‑L and MPS‑friendly training settings, the final model reaches ROUGE‑1 > 0.70 and ROUGE‑L ~0.664 while remaining feasible on a Mac mini.
