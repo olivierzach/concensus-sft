@@ -9,7 +9,7 @@ This project fine‑tunes a T5‑style encoder‑decoder model using supervised 
   - **Decoder** autoregressively generates the output sequence, attending to the encoder.
 - **Pretraining**: T5 is pretrained with a **span‑corruption** objective (mask spans, predict them).
 
-## SFT in This Repo
+## SFT Pipeline
 - **Input format**: `Question: ... Context: ...`
 - **Target**: a short answer / summary derived from the abstract.
 - **Loss**: token‑level cross‑entropy over the target sequence.
@@ -25,4 +25,3 @@ This creates consistent supervision and stabilizes learning.
 - **Early stopping**: monitored on `eval_rougeL` to align with generation quality.
 - **Apple Silicon**: MPS-friendly settings (gradient checkpointing, cache clears).
 - **Best run config**: `configs/consensus/clean_fit_end_es_rouge_long.yaml`
-

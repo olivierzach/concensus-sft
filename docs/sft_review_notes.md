@@ -1,4 +1,4 @@
-# Interview Prep
+# SFT Review Notes
 
 ## Modeling
 - Why text-to-text framing works for SFT.

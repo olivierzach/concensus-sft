@@ -13,4 +13,5 @@ reports/*.png
 reports/*.svg
 .DS_Store
 *.csv
+!data/source_materials/*.csv
 .pytest_cache

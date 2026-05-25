@@ -1,8 +1,8 @@
-# Consensus Scientific Question-Answering (QA) Supervised Fine-Tuning (SFT): End-to-End Model Pipeline & Results
+# concensus-sft: Supervised Fine-Tuning for Scientific QA
 
 A clean, reproducible supervised fine-tuning (SFT) baseline for scientific question answering (QA) with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
 
-**About Consensus (sponsor):** Consensus is an AI‑powered search engine for scientific research papers, with a mission to make the world’s best knowledge more accessible. [consensus.app](https://consensus.app/)
+The task is based on Consensus-style scientific QA: given a user question and a paper abstract, generate a short answer grounded in the paper context.
 
 ## Abstract
 We build a supervised fine-tuning (SFT) pipeline for scientific question answering. Early runs failed due to noisy targets and misalignment, producing repetitive outputs. We introduce an oracle extractive target construction and filtering strategy that aligns supervision with the input context. With early stopping on ROUGE‑L and MPS‑friendly training settings, the final model reaches ROUGE‑1 > 0.70 and ROUGE‑L ~0.664 while remaining feasible on a Mac mini.
@@ -64,7 +64,7 @@ Iteration trajectory:
 baseline (low latency):   BLEU 0.0587, ROUGE‑L 0.2094
 clean (oracle) run:       BLEU 0.5564, ROUGE‑L 0.5865
 long clean run:           BLEU 0.6032, ROUGE‑L 0.6538
-best run (this repo):     BLEU 0.6237, ROUGE‑L 0.6637
+best concensus-sft run:   BLEU 0.6237, ROUGE‑L 0.6637
 ```
 
 ## Project Layout
@@ -74,6 +74,7 @@ best run (this repo):     BLEU 0.6237, ROUGE‑L 0.6637
 - `docs/`: learning materials and evaluation guidance
 - `reports/`: model card + templates
 - `data/`: raw + processed datasets
+- `data/source_materials/`: source brief, data dictionary, and supplied CSVs
 
 ## Key Configs
 - `configs/default.yaml`: baseline training
@@ -97,19 +98,19 @@ PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python inference.py \
   --input_csv data/input_datasets/inference_data.csv
 ```
 
-## Latest Clean Run (Consensus)
+## Latest Clean Run
 - Config: `configs/consensus/clean_fit_end_es_rouge_long.yaml`
 - Output: `outputs/consensus_clean/flan_t5_small_clean_end_es_rouge_long/`
 - Best checkpoint: `outputs/consensus_clean/flan_t5_small_clean_end_es_rouge_long/best_checkpoint/`
 - Metrics: BLEU 0.6237, ROUGE-1 0.7143, ROUGE-2 0.6352, ROUGE-L 0.6637
 - Notes: targets are oracle sentence extracts; `[END]` token used as EOS for complete outputs; early stopping on `eval_rougeL` (patience 25)
-- Callout: ROUGE-1 > 70% on the consensus task.
+- Callout: ROUGE-1 > 70% on the scientific QA task.
 
 ## Results Highlights (Iteration Journey)
 - Baseline (low-latency) was weak: BLEU 0.0587, ROUGE-L 0.2094.
 - First stable clean run (oracle targets) jumped to BLEU 0.5564, ROUGE-L 0.5865.
 - Long clean run improved further: BLEU 0.6032, ROUGE-L 0.6538.
-- Best run (this repo): BLEU 0.6237, ROUGE-L 0.6637.
+- Best concensus-sft run: BLEU 0.6237, ROUGE-L 0.6637.
 - Net gain vs earliest baseline: ~10× BLEU and ~3× ROUGE-L, with coherent outputs.
 
 ## Engineering Notes
@@ -125,7 +126,7 @@ PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python inference.py \
 ## Seed Sweep (Variance Check)
 Run the 3‑seed sweep (no timeouts in your terminal):
 ```bash
-cd /Users/statsparrot/projects/concensus-interview
+cd concensus-sft
 source .venv_scitldr/bin/activate
 PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python scripts/seed_sweep.py \
   --base_config configs/consensus/seed_sweep_base.yaml \
@@ -143,6 +144,7 @@ PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 python scripts/consensus/train_clean.py \
 See:
 - `docs/learning_path.md`
 - `docs/learning_summary.md`
+- `docs/sft_review_notes.md`
 - `docs/evaluation_guidance.md`
 - `docs/metrics_definitions.md`
 - `docs/architecture.md`
