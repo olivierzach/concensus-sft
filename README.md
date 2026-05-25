@@ -1,4 +1,4 @@
-# concensus-sft: Supervised Fine-Tuning for Scientific QA
+# Supervised Fine-Tuning for Scientific QA
 
 A clean, reproducible supervised fine-tuning (SFT) baseline for scientific question answering (QA) with a focus on clarity, evaluation rigor, and latency/accuracy tradeoffs.
 
